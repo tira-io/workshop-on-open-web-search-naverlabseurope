@@ -58,5 +58,5 @@ jobs:
           	>> $GITHUB_ENV 
       - name: Build, test, and upload image
         run: |
-          docker build -t registry.webis.de/code-research/tira/tira-user-tira-user-naverlabseurope/re-ranking:0.0.1 ${{ github.workspace }}/${{ inputs.dockerpath }}
-          tira-run --input-dataset workshop-on-open-web-search/re-ranking-20231027-training --image registry.webis.de/code-research/tira/tira-user-tira-user-naverlabseurope/re-ranking:0.0.1 --push true
+          docker build -t registry.webis.de/code-research/tira/tira-user-tira-user-naverlabseurope/retrieval:0.0.1 ${{ github.workspace }}/${{ inputs.dockerpath }}
+          tira-run --input-dataset workshop-on-open-web-search/re-ranking-20231027-training --image registry.webis.de/code-research/tira/tira-user-tira-user-naverlabseurope/retrieval:0.0.1 --push true
