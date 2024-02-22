@@ -1,0 +1,30 @@
+# docker build -t mam10eks/splade_tira:0.0.1 -f Dockerfile.dev .
+# The dev Docker container originally from https://github.com/cadurosar/splade_tira/blob/main/Dockerfile.base
+FROM pytorch/pytorch:1.12.0-cuda11.3-cudnn8-runtime
+
+ENV PYTERRIER_VERSION='5.7'
+ENV PYTERRIER_HELPER_VERSION='0.0.7'
+
+COPY requirements.txt /workspace/
+
+RUN apt-get update \
+	&& apt-get install -y git openjdk-11-jdk \
+	&& pip3 install -r /workspace/requirements.txt \
+	&& python3 -c "import pyterrier as pt; pt.init(version='${PYTERRIER_VERSION}', helper_version='${PYTERRIER_HELPER_VERSION}');" \
+	&& python3 -c "import pyterrier as pt; pt.init(version='${PYTERRIER_VERSION}', helper_version='${PYTERRIER_HELPER_VERSION}', boot_packages=['com.github.terrierteam:terrier-prf:-SNAPSHOT']);"
+
+ENV PYTHONPATH=/workspace
+
+wget https://github.com/Kitware/CMake/releases/download/v3.27.1/cmake-3.27.1-linux-x86_64.sh
+
+apt-get install cmake build-essential libboost-all-dev bzip2 libbz2-dev m4 automake
+
+RUN git clone https://huggingface.co/naver/splade-cocondenser-ensembledistil /workspace/splade-cocondenser-ensembledistil \
+	&& cd /workspace/splade-cocondenser-ensembledistil \
+	&& apt-get install -y git-lfs \
+	&& git lfs install \
+	&& git lfs pull
+
+
+COPY run_retrieval.py /workspace/
+
