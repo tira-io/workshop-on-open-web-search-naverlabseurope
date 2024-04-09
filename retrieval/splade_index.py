@@ -12,7 +12,7 @@ def parse_args():
 
     parser.add_argument('--input', required=True)
     parser.add_argument('--output', required=True)
-    parser.add_argument('--batch', default=os.environ.get('BATCH_SIZE', 128))
+    parser.add_argument('--batch', default=os.environ.get('BATCH_SIZE', 128), type=int)
 
     return parser.parse_args()
 
@@ -26,7 +26,7 @@ def process_docs(dataset, splade, batch_size):
 
     indexer = splade.indexing()
     for chunk in tqdm(chunked(dataset.get_corpus_iter(), batch_size), 'Splade Indexing'):
-        tmp = indexer(dataset.get_corpus_iter())
+        tmp = indexer(chunk)
         del tmp['text']
         ret += [tmp]
 
