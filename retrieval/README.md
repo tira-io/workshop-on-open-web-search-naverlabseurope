@@ -4,7 +4,8 @@ You can run the docker image via (please install `tira` via `pip3 install tira`,
 
 ```
 tira-run \
-	--input-dataset workshop-on-open-web-search/document-processing-20231027-training \
+	--input-dataset reneuir-2024/dl-top-10-docs-20240701-training \
+	--command '/splade-retrieval-from-index.py --input $inputDataset --output $outputDir' \
 	--image mam10eks/splade_tira:0.0.1-retrieval
 ```
 
